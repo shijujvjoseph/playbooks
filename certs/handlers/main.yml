@@ -1,0 +1,14 @@
+---
+- name: "Reloading service using '{{ domain }}' certificate"
+  service:
+    name: "{{ item }}"
+    state: restarted
+  listen: 
+    - "ssl certificate changed"
+    - "ssl private key changed"
+  when: "item in services"
+  loop:
+    - mysql
+    - postfix
+    - dovecot
+    - apache2

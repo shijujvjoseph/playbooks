@@ -1,0 +1,24 @@
+---
+- include_vars: "{{ domain }}.yml"
+- name: populate services facts
+  service_facts:
+
+- name: make sure SSL certificate is installed
+  copy:
+    content: '{{ ssl_certificate }}'
+    dest: "/etc/ssl/certs/{{ domain }}.crt"
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  notify: "ssl certificate changed"
+
+- name: make sure SSL private key is installed
+  copy:
+    content: '{{ ssl_private_key }}'
+    dest: "/etc/ssl/private/{{ domain }}.key"
+    owner: root
+    group: root
+    mode: 0600
+  no_log: true
+  notify: "ssl private key changed"
